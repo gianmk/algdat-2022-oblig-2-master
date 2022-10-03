@@ -10,6 +10,8 @@ import java.util.Iterator;
 
 public class DobbeltLenketListe<T> implements Liste<T> {
 
+
+
     /**
      * Node class
      *
@@ -37,11 +39,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int endringer;         // antall endringer i listen
 
     public DobbeltLenketListe() {
-        throw new UnsupportedOperationException();
+        //throw new UnsupportedOperationException();
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new UnsupportedOperationException();
+
+        if (a == null) {
+            throw new NullPointerException("Tabellen er null!"); // sjekker om listen er tomt og gi feil melding
+        }
+
+        Node<T> node1 = null;
+
+        for (int i = 0; i < a.length; i++) {
+            // tar ikke med null verdi.
+            if(a[i] == null) continue;
+            antall++;
+            // første verdi
+            if (hode == null) {
+                hode = new Node<>(a[i], null, null);
+                hale = hode;
+                node1 = hode;
+                //neste verdi
+            } else {
+                Node<T> node2 = new Node<>(a[i]);
+                node1.neste = node2;
+                node2.forrige = node1;
+                node1 = node2;
+            }
+        }
+        hale = node1;
     }
 
     public Liste<T> subliste(int fra, int til) {
@@ -50,15 +76,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int antall() {
-        throw new UnsupportedOperationException();
+
+        if ( antall != 0) {
+            return antall;
+        } else {
+            return 0;
+        }
+
     }
 
     @Override
     public boolean tom() {
-        throw new UnsupportedOperationException();
-    }
 
-    @Override
+            if (antall() != 0) {
+                return false;
+            }
+            return true;
+        }
+
+
+        @Override
     public boolean leggInn(T verdi) {
         throw new UnsupportedOperationException();
     }
@@ -155,6 +192,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
+    }
+    public static void main(String[] args) {
+        String[] s = {"Ole", null, "Per", "Kari", null};
+        Liste<String> liste = new DobbeltLenketListe<>(s);
+        System.out.println(liste.antall() + " " + liste.tom());
+
+
     }
 
 } // class DobbeltLenketListe
