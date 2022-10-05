@@ -155,12 +155,44 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
+        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");
 
+        indeksKontroll(indeks, true);
+
+        if (antall == 0) {      // hvis tabellen er tom
+            Node<T> nyNode = new Node<>(verdi);
+            hode = nyNode;
+            hale = hode;
+        }
+
+        if (indeks == 0 && antall != 0) {   // hvis verdi legges først
+            Node<T> gammelNode = finnNode(indeks);
+            Node<T> nyNode = new Node<>(verdi, null, gammelNode);
+            hode = nyNode;
+            gammelNode.forrige = nyNode;
+        } else if (indeks == antall){       // hvis verdi legges sist
+            Node<T> buffer = hale;
+            Node<T> nyNode = new Node<>(verdi, buffer, null);
+            buffer.neste = nyNode;
+            hale = nyNode;
+        } else {
+            Node<T> gammelNode = finnNode(indeks);
+            Node<T> nyNode = new Node<>(verdi,gammelNode.forrige, gammelNode);
+            gammelNode.forrige.neste = nyNode;
+            gammelNode.forrige = nyNode;
+        }
+        endringer++;
+        antall ++;
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+
+        if(indeksTil(verdi) == -1){
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
@@ -173,7 +205,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+
+        Node <T> q = hode;
+
+
+        if(verdi == null){
+            return -1;
+        }
+
+        for(int posisjon = 0; q != null; posisjon++){
+            if(q.verdi.equals(verdi)){
+                return posisjon;
+            } else {
+                q = q.neste;
+            }
+        }
+        return -1;
     }
 
     @Override
@@ -339,7 +386,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
         System.out.println(liste.subliste(5,5));  // []
         System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
-        // System.out.println(liste.subliste(0,11));  // skal kaste unntak
+         //System.out.println(liste.subliste(0,11));  // skal kaste unntak
 
 
     }
