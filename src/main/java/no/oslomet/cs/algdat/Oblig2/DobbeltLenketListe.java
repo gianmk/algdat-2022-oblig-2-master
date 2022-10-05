@@ -6,6 +6,7 @@ package no.oslomet.cs.algdat.Oblig2;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -96,13 +97,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
         @Override
-    public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException();
-    }
+        public boolean leggInn(T verdi) {
+
+            //Null verdier ikke tillatt, kaster unntak
+            Objects.requireNonNull(verdi);
+
+            Node <T> node1 = new Node<>(verdi);
+
+            // tilfellen der listen er tom
+            if((hode == null) && (hale == null)) {
+                hode = node1;
+                hale = node1;
+            }
+            // listen er ikek tom
+            else {
+                Node <T> node2 = hale;
+                hale = node1;
+                node1.neste = node1;
+                node1.forrige = node2;
+
+            }
+            antall++;
+            endringer++;
+            return true;
+        }
+
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+
     }
 
     @Override
@@ -142,11 +165,48 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+
+        StringBuilder s = new StringBuilder();
+        boolean hasNext = true;
+        Node<T> q = hode;
+
+        // klammeparentes på starten
+        s.append('[');
+
+        // om listen er tom, om ikke tom kjøres det gjennom ved å flytte på neste peker
+        while (hasNext && q != null) {
+            if (q.neste == null) {
+                hasNext = false;
+                s.append(q.verdi);
+            } else {
+                s.append(q.verdi).append(',').append(' ');
+                q = q.neste;
+            }
+        }
+        s.append(']');
+        return s.toString();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+
+        StringBuilder s = new StringBuilder();
+
+        s.append('[');
+
+        if (!tom()) {
+            Node<T> r = hale;
+            s.append(hale.verdi);
+
+            r = r.forrige;
+
+            while (r != null) {
+                s.append(',').append(' ').append(r.verdi);
+                r = r.forrige;
+            }
+        }
+        s.append(']');
+
+        return s.toString();
     }
 
     @Override
@@ -194,9 +254,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
     public static void main(String[] args) {
-        String[] s = {"Ole", null, "Per", "Kari", null};
-        Liste<String> liste = new DobbeltLenketListe<>(s);
-        System.out.println(liste.antall() + " " + liste.tom());
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+        System.out.println(liste.toString() + " " + liste.omvendtString());
+        for (int i = 1; i <= 3; i++) {
+            liste.leggInn(i);
+            System.out.println(liste.toString() + " " + liste.omvendtString());
+        }
 
 
     }
