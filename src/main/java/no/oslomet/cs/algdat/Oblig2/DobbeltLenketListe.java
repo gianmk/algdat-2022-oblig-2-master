@@ -95,7 +95,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
         return subliste;
     }
-
     private static void fraTilKontroll(int antall, int fra, int til) {
         if((fra < 0 ) || (til > antall)) {
             throw new IndexOutOfBoundsException("Ugyldig intervall! Må være mellom [0, " + antall + ">.");
@@ -144,7 +143,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             else {
                 Node <T> node2 = hale;
                 hale = node1;
-                node1.neste = node1;
+                node2.neste = node1;
                 node1.forrige = node2;
 
             }
@@ -185,7 +184,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         T gammelVerdi = curr.verdi;
 
-
+        // vi erstatter  gammel verdi på plass indeks med ny verdi
         curr.verdi = nyverdi;
 
         endringer++;
