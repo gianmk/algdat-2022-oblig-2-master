@@ -72,9 +72,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Liste<T> subliste(int fra, int til) {
-        throw new UnsupportedOperationException();
+        // throw new UnsupportedOperationException();
+
+        // sjekk om indeks [fra, til> er lovlig
+        fraTilKontroll(antall, fra, til);
+
+        Liste<T> subliste = new DobbeltLenketListe<>();
+        if ((fra == 0) && (til == 0)) {
+            return subliste;
+        }
+        Node<T> start = finnNode(fra);
+        for (int i = fra; i < til; i++) {
+            // første verdi settes
+            if (i == fra) {
+                subliste.leggInn(start.verdi);
+                start = start.neste;
+                // neste verdiene settes
+            } else {
+                subliste.leggInn(start.verdi);
+                start = start.neste;
+            }
+        }
+        return subliste;
     }
 
+    private static void fraTilKontroll(int antall, int fra, int til) {
+        if((fra < 0 ) || (til > antall)) {
+            throw new IndexOutOfBoundsException("Ugyldig intervall! Må være mellom [0, " + antall + ">.");
+        }
+        if (fra > til){
+            throw new IllegalArgumentException("fra " + fra + "er større en til" + til);
+        }
+        return;
+
+    }
     @Override
     public int antall() {
 
@@ -135,8 +166,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+        endringer ++;
+        return finnNode(indeks).verdi;
     }
+
 
     @Override
     public int indeksTil(T verdi) {
@@ -145,7 +179,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+        Objects.requireNonNull(nyverdi, "Ikke tillatt med null-verdier!");
+
+        Node<T> curr = finnNode(indeks);
+
+        T gammelVerdi = curr.verdi;
+
+
+        curr.verdi = nyverdi;
+
+        endringer++;
+        // returnere det som lå der fra før
+        return gammelVerdi;
     }
 
     @Override
@@ -253,13 +298,49 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
     }
-    public static void main(String[] args) {
-        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
-        System.out.println(liste.toString() + " " + liste.omvendtString());
-        for (int i = 1; i <= 3; i++) {
-            liste.leggInn(i);
-            System.out.println(liste.toString() + " " + liste.omvendtString());
+
+    private Node<T> finnNode(int indeks) {
+        indeksKontroll(indeks, false);
+
+        // hvis listen ikke er tom
+        if (!tom()) {
+            Node<T> p;
+
+            // deler liste i 2 og sjkekker om indeks ligger til høyre eller venstre for listen
+            if(indeks <= (antall / 2)) {
+                p = hode;
+
+                // sjekker fra hode (venstre) mot midten
+                for (int i = 0; i <= indeks; i++) {
+                    if (indeks == i) {
+                        return p;
+                    } else {
+                        p = p.neste;
+                    }
+                }
+            } else {            // sjekker fra hale (høyre) mot midten
+                p = hale;
+                for (int i = antall - 1; i > (antall / 2) && (i < antall); i--) {
+                    if (indeks == i) {
+                        return p;
+                    } else {
+                        p = p.forrige;
+                    }
+                }
+            }
+            return p;
+        }else {                 // hvis listen er tom
+            throw new NullPointerException("Indeks er tom!");
         }
+
+    }
+    public static void main(String[] args) {
+        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
+        DobbeltLenketListe<Character> liste = new DobbeltLenketListe<>(c);
+        System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
+        System.out.println(liste.subliste(5,5));  // []
+        System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
+        // System.out.println(liste.subliste(0,11));  // skal kaste unntak
 
 
     }
