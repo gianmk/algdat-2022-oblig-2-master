@@ -155,34 +155,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");
+        Objects.requireNonNull(verdi, "Null-verdier ikke tillatt!");        //ikke lov å legge inn null-verdier
+        if (indeks < 0 || indeks > antall) throw new IndexOutOfBoundsException(indeks);  //ikke lov å legge inn i en ugyldig indeks
 
-        indeksKontroll(indeks, true);
+        Node node = new Node(verdi);                //ny node med verdi
 
-        if (antall == 0) {      // hvis tabellen er tom
-            Node<T> nyNode = new Node<>(verdi);
-            hode = nyNode;
-            hale = hode;
+        if (tom()) {
+            hode = hale = node;                     //setter pekere på første node i listen
+            node.forrige = node.neste = null;
         }
 
-        if (indeks == 0 && antall != 0) {   // hvis verdi legges først
-            Node<T> gammelNode = finnNode(indeks);
-            Node<T> nyNode = new Node<>(verdi, null, gammelNode);
-            hode = nyNode;
-            gammelNode.forrige = nyNode;
-        } else if (indeks == antall){       // hvis verdi legges sist
-            Node<T> buffer = hale;
-            Node<T> nyNode = new Node<>(verdi, buffer, null);
-            buffer.neste = nyNode;
-            hale = nyNode;
+        if (indeks == 0) {
+            hode.forrige = node;                    //setter pekere på ny hode
+            node.neste = hode;
+            hode = node;
+        } else if (indeks == antall) {
+            hale.neste = node;                      //setter pekere på ny hale
+            node.forrige = hale;
+            hale = node;
         } else {
-            Node<T> gammelNode = finnNode(indeks);
-            Node<T> nyNode = new Node<>(verdi,gammelNode.forrige, gammelNode);
-            gammelNode.forrige.neste = nyNode;
-            gammelNode.forrige = nyNode;
+            Node prev = finnNode(indeks-1);   //setter pekere ellers
+            Node next = prev.neste;
+            prev.neste = node;
+            node.neste = next;
+            node.forrige = prev;
+            next.forrige = node;
         }
-        endringer++;
-        antall ++;
+        antall++;                                   //antall økes med 1
+        endringer++;                                //endringer økes med 1
+
     }
 
     @Override
