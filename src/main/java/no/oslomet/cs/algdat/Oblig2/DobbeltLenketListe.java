@@ -159,11 +159,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (indeks < 0 || indeks > antall) throw new IndexOutOfBoundsException(indeks);  //ikke lov å legge inn i en ugyldig indeks
 
         Node node = new Node(verdi);                //ny node med verdi
-
-        if (tom()) {
-            hode = hale = node;                     //setter pekere på første node i listen
-            node.forrige = node.neste = null;
-        }
+        if(tom)
 
         if (indeks == 0) {
             hode.forrige = node;                    //setter pekere på ny hode
