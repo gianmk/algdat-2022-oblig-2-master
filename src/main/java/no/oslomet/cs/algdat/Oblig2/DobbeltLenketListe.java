@@ -154,32 +154,32 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
 
     @Override
-    public void leggInn(int indeks, T verdi) {
-        Objects.requireNonNull(verdi, "Null-verdier ikke tillatt!");        //ikke lov å legge inn null-verdier
-        if (indeks < 0 || indeks > antall) throw new IndexOutOfBoundsException(indeks);  //ikke lov å legge inn i en ugyldig indeks
+    public void leggInn(int indeks, T verdi)
+    {
+        Objects.requireNonNull(verdi, "Ikke tillatt med null-verdier!");
 
-        Node node = new Node(verdi);                //ny node med verdi
-        if(tom)
 
-        if (indeks == 0) {
-            hode.forrige = node;                    //setter pekere på ny hode
-            node.neste = hode;
-            hode = node;
-        } else if (indeks == antall) {
-            hale.neste = node;                      //setter pekere på ny hale
-            node.forrige = hale;
-            hale = node;
-        } else {
-            Node prev = finnNode(indeks-1);   //setter pekere ellers
-            Node next = prev.neste;
-            prev.neste = node;
-            node.neste = next;
-            node.forrige = prev;
-            next.forrige = node;
+
+        if (tom())                              // tom liste
+        {
+            hode = hale = new Node<>(verdi, null, null);
         }
-        antall++;                                   //antall økes med 1
-        endringer++;                                //endringer økes med 1
+        else if (indeks == 0)                   // ny verdi forrest
+        {
+            hode = hode.forrige = new Node<>(verdi, null, hode);
+        }
+        else if (indeks == antall)              // ny verdi bakerst
+        {
+            hale = hale.neste = new Node<>(verdi, hale, null);
+        }
+        else                                    // ny verdi pa plass indeks
+        {
+            Node<T> p = finnNode(indeks);     // ny verdi skal til venstre for p
+            p.forrige = p.forrige.neste = new Node<>(verdi, p.forrige, p);
+        }
 
+        antall++;            // ny verdi i listen
+        endringer++;   // en endring i listen
     }
 
     @Override
