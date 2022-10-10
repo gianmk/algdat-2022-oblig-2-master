@@ -37,7 +37,11 @@ Det sjekkes først om indeks og verdi er gyldig. Metoden legginn() oppretter en 
   
 Oppgave 6  
 Bolean fjern( T verdi) ble ny variabel "node" opprettes, og satt = hode. Funnet bolean er satt til false. Om listen er tom, vil det returne false, om listen ikke er tom til det starte en while-løkke, der verdi ikke kan være null. Om Verdi ikke er null, sjekkes det om verdi i peker == verdi, og dersom dette er tilfelle vil løkken avslutte. Om det ikke er tilfellen, flyttes pekere til neste. Når verdien er funnet blir det sjekk om verdien er hode, hale eller mellom disse. Noden fjernes ved å justere pekere, og deretter økes endringer mens antall reduseres.  
-T fjern (int indeks) sjekker det først med indeks kontroll om indeksen er innefor grensen. En hjelpevariabel (fjern) bli oprette. Først blir det sjekket om listen har kun 1 verdi (antall=1), deretter sjekker det om hoden som skal fjernes ( indeks = 0) eller om halen som skal fjernes (indeks==antall-1). Dersom det er ingen av disse tilfellene, er indeksen mellom halen og hode. Da blir node "current" opprettes, som settes som like noden til indeksen ved hjelpe av finnnode(indeks) metoden. Pekere til node(current) endres for å fjerne. Antall reduseres og endringer økes, og indeksen til noden som er fjerne blir returnert  
+T fjern (int indeks) sjekker det først med indeks kontroll om indeksen er innefor grensen. En hjelpevariabel (fjern) bli oprette. Først blir det sjekket om listen har kun 1 verdi (antall=1), deretter sjekker det om hoden som skal fjernes ( indeks = 0) eller om halen som skal fjernes (indeks==antall-1). Dersom det er ingen av disse tilfellene, er indeksen mellom halen og hode. Da blir node "current" opprettes, som settes som like noden til indeksen ved hjelpe av finnnode(indeks) metoden. Pekere til node(current) endres for å fjerne. Antall reduseres og endringer økes, og indeksen til noden som er fjerne blir returnert.  
+
+oppgave 8.  
+Bare fulgt instruksene som var med oppgaven. starte med å sjekke om iteratorendringer = endringer og om hasnext() er false, kaster en untak i så fall. Fjernok blir satt til true,  verdien blir lagret i en variabel og peker flyttes til neste node. DobbeltLenketListeIterator(int indeks) er lik den andre konstruøren, men her peker det mot den oppgitte indeksen. Konstruktøren kalles av DobbeltLenketListeIterator(int indeks) etter at det har sjekket indeksen er gyldig.  
+
 
 
 

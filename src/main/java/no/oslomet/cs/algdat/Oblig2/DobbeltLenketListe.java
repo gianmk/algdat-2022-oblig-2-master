@@ -328,7 +328,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new UnsupportedOperationException();
+        while (hode!=hale){
+            hode.neste.forrige = null;
+            hode = hode.neste;
+            endringer++;
+        }
+        hode = hale = null;
+        endringer++;
+        antall=0;
     }
 
     @Override
@@ -379,13 +386,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public Iterator<T> iterator() {
-        throw new UnsupportedOperationException();
+        return new DobbeltLenketListeIterator();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks,false);
+        return new DobbeltLenketListeIterator(indeks);
     }
-
     private class DobbeltLenketListeIterator implements Iterator<T> {
         private Node<T> denne;
         private boolean fjernOK;
@@ -397,8 +404,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             iteratorendringer = endringer;  // teller endringer
         }
 
-        private DobbeltLenketListeIterator(int indeks) {
-            throw new UnsupportedOperationException();
+        private DobbeltLenketListeIterator(int indeks){
+            denne = finnNode(indeks);
+            fjernOK = false;
+            iteratorendringer = endringer;
         }
 
         @Override
@@ -408,18 +417,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            if (iteratorendringer!=endringer)
-            {
-                throw new ConcurrentModificationException();
-            }
-            else if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
+            if(endringer != iteratorendringer)
+                throw new ConcurrentModificationException("Endringer er ikke oppdatert riktig");
+            if(!hasNext())
+                throw new NoSuchElementException("Listen har nådd siste noden");
+
             fjernOK = true;
-            T returnVerdi = denne.verdi;
+            T returVerdi = denne.verdi;
             denne = denne.neste;
-            return returnVerdi;
+            return returVerdi;
         }
+
 
         @Override
         public void remove() {
@@ -466,16 +474,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
     }
-    public static void main(String[] args) {
-        Character[] c = {'A','B','C','D','E','F','G','H','I','J',};
-        DobbeltLenketListe<Character> liste = new DobbeltLenketListe<>(c);
-        System.out.println(liste.subliste(3,8));  // [D, E, F, G, H]
-        System.out.println(liste.subliste(5,5));  // []
-        System.out.println(liste.subliste(8,liste.antall()));  // [I, J]
-         //System.out.println(liste.subliste(0,11));  // skal kaste unntak
 
-
-    }
 
 } // class DobbeltLenketListe
 

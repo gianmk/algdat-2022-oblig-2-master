@@ -1112,7 +1112,7 @@ class Oblig2Test {
         }
 
         int m = 4;
-        i = liste.iterator(3);
+       i = liste.iterator(3);
         for (; i.hasNext(); ) {
             if (i.next() != m) {
                 antallFeil++;
