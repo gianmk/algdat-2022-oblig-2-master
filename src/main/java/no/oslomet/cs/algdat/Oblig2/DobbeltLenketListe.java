@@ -239,18 +239,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-        Node<T> p = hode;
+        Node<T> node = hode;
 
         boolean funnet = false;
 
 
 
-        while(p != null) {
-            if (p.verdi.equals(verdi)) {
+        while(node != null) {
+            if (node.verdi.equals(verdi)) {
                 funnet = true;
                 break;
             } else {
-                p = p.neste;
+                node = node.neste;
             }
         }
 
@@ -258,20 +258,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if(antall == 1) {
                 hode = null;
                 hale = null;
-                p.neste = null;
-                p.forrige = null;
+                node.neste = null;
+                node.forrige = null;
                 antall = 0;
                 endringer++;
                 return true;
             }
-            if(hode == p){
+            if(hode == node){
                 hode.neste.forrige = null;
                 hode = hode.neste;
 
                 antall--;
                 endringer++;
                 return true;
-            } else if (hale == p){
+            } else if (hale == node){
                 hale.forrige.neste = null;
                 hale = hale.forrige;
 
@@ -279,8 +279,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 endringer++;
                 return true;
             } else {
-                p.neste.forrige = p.forrige;
-                p.forrige.neste = p.neste;
+                node.neste.forrige = node.forrige;
+                node.forrige.neste = node.neste;
 
                 antall--;
                 endringer++;
@@ -297,18 +297,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         T fjern;
 
-        if (antall == 1){
+        if (antall == 1){  //sjekk om listen har kun 1 verdi
             fjern = hode.verdi;
             hode = hale = null;
         }
 
-        else if (indeks == 0){
+        else if (indeks == 0){  //sjekk om hoden som fjernes
             fjern = hode.verdi;
             hode = hode.neste;
             hode.forrige = null;
         }
 
-        else if (indeks == antall-1){
+        else if (indeks == antall-1){  //sjekk om halen som fjernes
             fjern = hale.verdi;
             hale = hale.forrige;
             hale.neste = null;
