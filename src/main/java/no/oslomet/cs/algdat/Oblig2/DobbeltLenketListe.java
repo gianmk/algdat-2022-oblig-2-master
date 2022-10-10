@@ -4,9 +4,7 @@ package no.oslomet.cs.algdat.Oblig2;
 ////////////////// class DobbeltLenketListe //////////////////////////////
 
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class DobbeltLenketListe<T> implements Liste<T> {
@@ -409,8 +407,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         @Override
-        public T next() {
-            throw new UnsupportedOperationException();
+        public T next(){
+            if (iteratorendringer!=endringer)
+            {
+                throw new ConcurrentModificationException();
+            }
+            else if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            fjernOK = true;
+            T returnVerdi = denne.verdi;
+            denne = denne.neste;
+            return returnVerdi;
         }
 
         @Override
