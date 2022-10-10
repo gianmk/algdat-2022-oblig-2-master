@@ -51,16 +51,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         for (int i = 0; i < a.length; i++) {
 
-            if(a[i] == null) continue;
+            if(a[i] == null) continue;  // verdi som er null hoppes over.
             antall++;
 
-            if (hode == null) {
+            if (hode == null) {   //første verdi
                 hode = new Node<>(a[i], null, null);
                 hale = hode;
                 node1 = hode;
 
             } else {
-                Node<T> node2 = new Node<>(a[i]);
+                Node<T> node2 = new Node<>(a[i]); // neste verdi settes inn
                 node1.neste = node2;
                 node2.forrige = node1;
                 node1 = node2;
