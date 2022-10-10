@@ -32,5 +32,8 @@ subListe() metoden opprette en tom subliste som skal kopier verdi fra en annen l
 oppgave 4  
 nodepeker "node" er satt til hode. Det sjekkes om verdien er null, dersom det er returne det -1. Om det ikke er null, kjøres det en for-løkke. posisjon (int ) økes hver gang det kjøre gjennom. Når verdien er funnet ( node.verdi ==verdi) returner posisjonen. Peker flyytes også hver gang det kjørs gjennom. dersom verdi ikke bli funnet vil det returne -1  
 
+oppgave 5  
+Det sjekkes først om indeks og verdi er gyldig. Metoden legginn() oppretter en ny node med gitte verdi. Den skal legges i listen på riktig indeks. Dette gjøres ved å sette peker ut fra ut fra i listen "inserting" skal skje, om det er først, siste eller mellom to nodene. Endring og antall økes med en. 
+
 
 

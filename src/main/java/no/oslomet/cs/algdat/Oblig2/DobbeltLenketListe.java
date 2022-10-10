@@ -154,24 +154,24 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
 
     public void leggInn(int indeks, T verdi) { //hako
-        Objects.requireNonNull(verdi, "Null-verdier ikke tillatt!");
+        Objects.requireNonNull(verdi, "Null-verdier ikke tillatt!");  // ikke lov med null verdi
         if (indeks < 0 || indeks > antall) throw new IndexOutOfBoundsException(indeks);
 
-        Node node = new Node(verdi);
-        if (tom()) {
+        Node node = new Node(verdi);  // ny node
+        if (tom()) {                  //satt pekere på første node
             hode = hale = node;
         }
 
-        if (indeks == 0) {
+        if (indeks == 0) {         //peker på ny hode
             hode.forrige = node;
             node.neste = hode;
             hode = node;
-        } else if (indeks == antall) {
+        } else if (indeks == antall) {  // peker på ny hale
             hale.neste = node;
             node.forrige = hale;
             hale = node;
         } else {
-            Node prev = finnNode(indeks-1);
+            Node prev = finnNode(indeks-1);  // peker ellers
             Node next = prev.neste;
             prev.neste = node;
             node.neste = next;
