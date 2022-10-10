@@ -72,7 +72,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public Liste<T> subliste(int fra, int til) {
 
 
-
+//sjekekr om fra til er lovlig
         fraTilKontroll(antall, fra, til);
 
         Liste<T> subliste = new DobbeltLenketListe<>();
@@ -137,7 +137,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                 hode = node1;
                 hale = node1;
             }
-            // listen er ikek tom
+            // listen er ikke tom
             else {
                 Node <T> node2 = hale;
                 hale = node1;
@@ -229,11 +229,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         T gammelVerdi = curr.verdi;
 
-
+//erstatter gammel verdi på indeks til ny verdi.
         curr.verdi = nyverdi;
 
         endringer++;
-
+//returner gammel verdi
         return gammelVerdi;
     }
 
@@ -436,13 +436,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         indeksKontroll(indeks, false);
 
 
-        if (!tom()) {
+        if (!tom()) {  //om tikke tom liste
             Node<T> p;
 
-
+//deler listen i halv
             if(indeks <= (antall / 2)) {
                 p = hode;
-
+//sjekker fra venstre(hode) til mid
                 for (int i = 0; i <= indeks; i++) {
                     if (indeks == i) {
                         return p;
@@ -450,7 +450,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                         p = p.neste;
                     }
                 }
-            } else {
+            } else {    //sjekke fra høyre/halen til midten
                 p = hale;
                 for (int i = antall - 1; i > (antall / 2) && (i < antall); i--) {
                     if (indeks == i) {
