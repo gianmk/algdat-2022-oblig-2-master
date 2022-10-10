@@ -204,18 +204,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public int indeksTil(T verdi) {
 
-        Node <T> q = hode;
+        Node <T> node = hode;
 
 
         if(verdi == null){
             return -1;
         }
 
-        for(int posisjon = 0; q != null; posisjon++){
-            if(q.verdi.equals(verdi)){
-                return posisjon;
+        for(int i = 0; node != null; i++){
+            if(node.verdi.equals(verdi)){
+                return i;
             } else {
-                q = q.neste;
+                node = node.neste;
             }
         }
         return -1;

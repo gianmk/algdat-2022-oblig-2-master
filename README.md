@@ -29,4 +29,8 @@ hjelpemetoden finnNode() ble brukt for å hjelpe metoden hent() for å verdien p
 oppgave 3b)
 subListe() metoden opprette en tom subliste som skal kopier verdi fra en annen liste i intervallet [fra,til>]. Hjelpemetoden fratilkontroll() ble laget for for å kontrollere at indeksen og antall ikke er utenfor gitte grense..
 
+oppgave 4  
+nodepeker "node" er satt til hode. Det sjekkes om verdien er null, dersom det er returne det -1. Om det ikke er null, kjøres det en for-løkke. posisjon (int ) økes hver gang det kjøre gjennom. Når verdien er funnet ( node.verdi ==verdi) returner posisjonen. Peker flyytes også hver gang det kjørs gjennom. dersom verdi ikke bli funnet vil det returne -1  
+
+
 
