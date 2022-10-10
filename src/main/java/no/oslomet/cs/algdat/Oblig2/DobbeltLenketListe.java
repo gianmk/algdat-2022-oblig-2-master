@@ -269,21 +269,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             if(hode == p){
                 hode.neste.forrige = null;
                 hode = hode.neste;
-                hode.forrige = null;
-                p.neste = null;
+
                 antall--;
                 endringer++;
                 return true;
             } else if (hale == p){
                 hale.forrige.neste = null;
                 hale = hale.forrige;
-                hale.neste = null;
-                p.forrige = null;
+
                 antall--;
                 endringer++;
                 return true;
             } else {
-
+                p.neste.forrige = p.forrige;
+                p.forrige.neste = p.neste;
 
                 antall--;
                 endringer++;
@@ -298,35 +297,35 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public T fjern(int indeks) {
         indeksKontroll(indeks,false);
 
-        T fjernIndex;
+        T fjern;
 
         if (antall == 1){
-            fjernIndex = hode.verdi;
+            fjern = hode.verdi;
             hode = hale = null;
         }
 
         else if (indeks == 0){
-            fjernIndex = hode.verdi;
+            fjern = hode.verdi;
             hode = hode.neste;
             hode.forrige = null;
         }
 
         else if (indeks == antall-1){
-            fjernIndex = hale.verdi;
+            fjern = hale.verdi;
             hale = hale.forrige;
             hale.neste = null;
         }
 
         else {
             Node<T> current = finnNode(indeks);
-            fjernIndex = current.verdi;
+            fjern = current.verdi;
             current.forrige.neste = current.neste;
             current.neste.forrige = current.forrige;
         }
 
         antall--;
         endringer++;
-        return fjernIndex;
+        return fjern;
     }
 
     @Override
